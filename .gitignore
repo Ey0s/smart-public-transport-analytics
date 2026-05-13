@@ -6,8 +6,8 @@ __pycache__/
 .venv/
 venv/
 env/
+.env
 otherfile/
-
 # Ignore the entire data folder (raw, processed, caches, etc.)
 data/
 data/processed/
