@@ -8,11 +8,8 @@ pandas>=2.2.2
 duckdb>=1.1.0
 pyarrow>=19.0.0
 
-# Bonus: Orchestration (Airflow)
-# Airflow is typically run via Docker/WSL on Windows, and may not support Python 3.13 yet.
 apache-airflow>=2.9.3; python_version < "3.13" and platform_system != "Windows"
 
-# Bonus: dbt on DuckDB (often not available on Python 3.13 yet)
-# Pinned versions to avoid long dependency resolution
+
 dbt-duckdb==1.8.2; python_version < "3.13"
 dbt-core==1.8.8; python_version < "3.13"
