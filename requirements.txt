@@ -13,4 +13,7 @@ pyarrow>=19.0.0
 apache-airflow>=2.9.3; python_version < "3.13" and platform_system != "Windows"
 
 # Bonus: dbt on DuckDB (often not available on Python 3.13 yet)
-dbt-duckdb>=1.8.2; python_version < "3.13"
+# Pinned versions to avoid long dependency resolution
+dbt-duckdb==1.8.2; python_version < "3.13"
+dbt-core==1.8.8; python_version < "3.13"
+dbt-common==1.34.2; python_version < "3.13"
