@@ -1,0 +1,17 @@
+name: transport_analytics
+version: "1.0.0"
+config-version: 2
+
+profile: transport_analytics
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+models:
+  transport_analytics:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
+

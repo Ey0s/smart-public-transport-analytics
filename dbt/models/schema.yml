@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_trips
+    description: "Staging view over main.trips"
+    columns:
+      - name: trip_id
+        tests: [not_null, unique]
+      - name: operating_day
+        tests: [not_null]
+
+  - name: stg_routes
+    description: "Staging view over main.routes"
+    columns:
+      - name: route_id
+        tests: [unique]
+
+  - name: dim_routes
+    description: "Route dimension"
+    columns:
+      - name: route_id
+        tests: [unique]
+
+  - name: fact_trips
+    description: "Unified trip fact table"
+    columns:
+      - name: trip_id
+        tests: [not_null, unique]
+
+  - name: aggregated_metrics
+    description: "Daily/hourly aggregates for BI"
+

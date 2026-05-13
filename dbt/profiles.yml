@@ -1,0 +1,8 @@
+transport_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../duckdb/transport_analytics.duckdb
+      schema: main
+

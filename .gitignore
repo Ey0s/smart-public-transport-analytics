@@ -1,0 +1,26 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+otherfile/
+
+# Ignore the entire data folder (raw, processed, caches, etc.)
+data/
+data/processed/
+duckdb/*.db
+duckdb/*.sqlite
+duckdb/*.duckdb
+duckdb/*.wal
+duckdb/*.tmp
+
+*.log
+.DS_Store
+
+# Keep dashboard files
+!dashboard/*.pbix
+!dashboard/*.twbx
+
