@@ -1,0 +1,57 @@
+volumes:
+  airflow_home:
+
+services:
+  init:
+    build: .
+    image: smartpublictransport_webserver:latest
+    volumes:
+      - airflow_home:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags:rw
+      - ./:/opt/airflow/project:ro
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__FERNET_KEY=temporary_fernet_key
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    command: db migrate
+    profiles:
+      - init
+
+  webserver:
+    build: .
+    image: smartpublictransport_webserver:latest
+    restart: always
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__FERNET_KEY=temporary_fernet_key
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__WEBSERVER__WORKERS=2
+    volumes:
+      - airflow_home:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags:rw
+      - ./:/opt/airflow/project:ro
+    ports:
+      - "8080:8080"
+    command: webserver
+
+  scheduler:
+    build: .
+    image: smartpublictransport_scheduler:latest
+    depends_on:
+      - webserver
+    volumes:
+      - airflow_home:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags:rw
+      - ./:/opt/airflow/project:ro
+    command: scheduler
+
+  triggerer:
+    build: .
+    image: smartpublictransport_triggerer:latest
+    depends_on:
+      - webserver
+    volumes:
+      - airflow_home:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags:rw
+      - ./:/opt/airflow/project:ro
+    command: triggerer

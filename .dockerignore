@@ -1,0 +1,17 @@
+.git
+.venv
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+data
+duckdb/*.duckdb
+duckdb/*.db
+dbt/logs
+dbt/target
+airflow/logs
+.pytest_cache
+.mypy_cache
+.ruff_cache

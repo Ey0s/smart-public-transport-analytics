@@ -1,0 +1,26 @@
+services:
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags:rw
+      - ./:/opt/airflow/project:ro
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags:rw
+      - ./:/opt/airflow/project:ro
+
+  triggerer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags:rw
+      - ./:/opt/airflow/project:ro
