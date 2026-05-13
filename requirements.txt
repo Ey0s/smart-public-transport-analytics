@@ -1,0 +1,16 @@
+# Core runtime (works on Windows)
+pyspark>=3.5.1
+python-dotenv>=1.0.1
+requests>=2.32.3
+pandas>=2.2.2
+
+# Native wheels: use newer versions for Python 3.13+ on Windows.
+duckdb>=1.1.0
+pyarrow>=19.0.0
+
+# Bonus: Orchestration (Airflow)
+# Airflow is typically run via Docker/WSL on Windows, and may not support Python 3.13 yet.
+apache-airflow>=2.9.3; python_version < "3.13" and platform_system != "Windows"
+
+# Bonus: dbt on DuckDB (often not available on Python 3.13 yet)
+dbt-duckdb>=1.8.2; python_version < "3.13"
