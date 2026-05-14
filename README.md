@@ -198,12 +198,32 @@ DAG: `airflow/dags/pipeline_dag.py`
 
 Airflow is easiest to run via Docker or WSL on Windows. The Docker setup uses PostgreSQL for the Airflow metadata DB and `LocalExecutor`, which avoids the SQLite/SequentialExecutor production warnings.
 
+How Airflow is used in this project:
+- `extract_transform_load`: runs the PySpark ETL and writes curated tables into DuckDB
+- `verify_duckdb`: validates minimum row counts so failed/empty loads are caught early
+- `export_powerbi`: exports Power BI-friendly CSV files from DuckDB
+- Dependency chain: `extract_transform_load >> verify_duckdb >> export_powerbi`
+
 For setup, deployment, and architecture details (including container dashboard, authentication, and DAG monitoring screenshots), see [airflow/README.md](airflow/README.md).
 
 ```bash
 # Inside Docker / WSL with Airflow installed:
 airflow dags trigger transport_analytics_pipeline
 ```
+
+### Airflow Screenshots
+
+#### Containers Dashboard
+
+![SmartPublicTransport Containers Dashboard](airflow/screenshot/SmartPublicTransportContainersDashboard.png)
+
+#### Airflow Authentication Screen
+
+![Airflow Authentication Screen](airflow/screenshot/AirflowAuthenticationScreen.png)
+
+#### DAG Monitoring Screen
+
+![Airflow DAG Monitoring Screen](airflow/screenshot/AirflowDAGMonitoringScreen.png)
 
 ## Bonus: dbt Models
 
