@@ -1,9 +1,6 @@
 # Power BI Dashboard Setup
-
 This guide connects the DuckDB analytics database to Power BI for interactive dashboarding.
-
 ## Prerequisites
-
 - Power BI Desktop ([Download](https://powerbi.microsoft.com/en-us/desktop/))
 - DuckDB database: `duckdb/transport_analytics.duckdb` (created after running the ETL pipeline)
 - The pipeline has been executed: `python -m spark.etl_job`
@@ -18,7 +15,7 @@ This guide connects the DuckDB analytics database to Power BI for interactive da
 2. Install the appropriate version for your system (Windows 64-bit or 32-bit)
 3. Restart your computer after installation
 
-#### 2. Configure ODBC Data Source
+## 2. Configure ODBC Data Source
 
 1. Open **ODBC Data Source Administrator**:
    - Windows: Press `Win + R`, type `odbcad32.exe`, press Enter
@@ -29,7 +26,7 @@ This guide connects the DuckDB analytics database to Power BI for interactive da
    - **Database**: `C:\Users\eyos\Documents\bigdata\SmartPublicTransport\duckdb\transport_analytics.duckdb` (full path)
 5. Click **OK** to save
 
-#### 3. Connect in Power BI
+### 3. Connect in Power BI
 
 1. Open **Power BI Desktop**
 2. Go to **Get Data** → **ODBC**
