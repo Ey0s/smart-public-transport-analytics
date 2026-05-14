@@ -67,32 +67,4 @@ default_args = {
 }
 
 
-with DAG(
-    dag_id="transport_analytics_pipeline",
-    description="CSV + Parquet + Weather -> PySpark ETL -> DuckDB",
-    default_args=default_args,
-    start_date=datetime(2026, 1, 1),
-    schedule_interval="@daily",
-    catchup=False,
-    max_active_runs=1,
-    tags=["university", "pyspark", "duckdb"],
-) as dag:
-    extract_transform_load = PythonOperator(
-        task_id="extract_transform_load",
-        python_callable=_run_spark_etl,
-        execution_timeout=timedelta(hours=2),
-    )
 
-    verify_duckdb = PythonOperator(
-        task_id="verify_duckdb",
-        python_callable=_verify_duckdb_min_rows,
-        execution_timeout=timedelta(minutes=10),
-    )
-
-    export_powerbi = PythonOperator(
-        task_id="export_powerbi",
-        python_callable=_export_powerbi_assets,
-        execution_timeout=timedelta(minutes=30),
-    )
-
-    extract_transform_load >> verify_duckdb >> export_powerbi
