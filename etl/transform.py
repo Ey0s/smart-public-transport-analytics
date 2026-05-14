@@ -436,15 +436,4 @@ def build_analytics_summary(trips: DataFrame) -> Tuple[DataFrame, DataFrame]:
         .withColumn("route_name", F.concat(F.lit("Route "), F.col("route_id")))
     )
 
-    summary = (
-        trips.groupBy("operating_day", "hour", "source")
-        .agg(
-            F.count("*").alias("trip_count"),
-            F.sum(F.coalesce(F.col("passenger_count"), F.lit(0))).alias("total_passengers"),
-            F.avg(F.col("delay_min")).alias("avg_delay_min"),
-            F.sum(F.when(F.col("is_peak_hour") == True, 1).otherwise(0)).alias("peak_hour_trip_count"),
-        )
-        .withColumn("created_at", F.current_timestamp())
-    )
-
-    return routes, summary
+    
