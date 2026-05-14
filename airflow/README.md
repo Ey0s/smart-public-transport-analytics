@@ -10,9 +10,30 @@ Apache Airflow is easiest to run via **Docker** or **WSL** on Windows.
 
 1. Follow the official Airflow Docker Compose quick start.
 2. Mount this repo into the Airflow container.
-3. Point `AIRFLOW__CORE__DAGS_FOLDER` to the mounted `airflow/dags`.
+3. Use PostgreSQL as the metadata database and `LocalExecutor` for scheduling.
+4. Point `AIRFLOW__CORE__DAGS_FOLDER` to the mounted `airflow/dags`.
 
 The DAG `transport_analytics_pipeline` runs daily and executes the PySpark ETL job via `PythonOperator`.
+
+## Screenshots
+
+### Containers Dashboard
+
+Shows all Airflow services (webserver, scheduler, triggerer) running in Docker with Postgres metadata storage:
+
+![SmartPublicTransport Containers Dashboard](screenshot/SmartPublicTransportContainersDashboard.png)
+
+### Airflow Authentication Screen
+
+Secure login to the Airflow webserver:
+
+![Airflow Authentication Screen](screenshot/AirflowAuthenticationScreen.png)
+
+### DAG Monitoring Screen
+
+Real-time DAG execution, task status, and scheduler heartbeat monitoring:
+
+![Airflow DAG Monitoring Screen](screenshot/AirflowDAGMonitoringScreen.png)
 
 ## Power BI
 
