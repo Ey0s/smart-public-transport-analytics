@@ -196,7 +196,9 @@ DAG: `airflow/dags/pipeline_dag.py`
 - Retries: 2 × 5-minute delay
 - Execution timeout: 2 hours
 
-Airflow is easiest to run via Docker or WSL on Windows. See `airflow/README.md`.
+Airflow is easiest to run via Docker or WSL on Windows. The Docker setup uses PostgreSQL for the Airflow metadata DB and `LocalExecutor`, which avoids the SQLite/SequentialExecutor production warnings.
+
+For setup, deployment, and architecture details (including container dashboard, authentication, and DAG monitoring screenshots), see [airflow/README.md](airflow/README.md).
 
 ```bash
 # Inside Docker / WSL with Airflow installed:
