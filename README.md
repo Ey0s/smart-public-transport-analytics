@@ -259,6 +259,6 @@ Suggested pages:
 | **BANTALEM MITIKU** | DuckDB schema design, curated table loading, query support |
 | **YONAS TILAHUN** | dbt models (staging/marts), dbt tests, metrics definitions |
 | **ADDISU GUCHE** | Airflow DAG/orchestration, scheduling/retries, pipeline automation |
-| **EDEN SEBSBE** | Power BI dashboard build, screenshots, dashboard documentation updates |
+| **EDEN SEBSBE** | Power BI dashboard build, screenshots, dashboard documentation updates and  initial data cleaning |
 
 
