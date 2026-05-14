@@ -1,18 +1,38 @@
 volumes:
   airflow_home:
+  postgres_db:
 
 services:
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   init:
     build: .
     image: smartpublictransport_webserver:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
     volumes:
       - airflow_home:/opt/airflow
       - ./airflow/dags:/opt/airflow/dags:rw
       - ./:/opt/airflow/project:ro
     environment:
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__FERNET_KEY=temporary_fernet_key
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
     command: db migrate
     profiles:
       - init
@@ -21,10 +41,14 @@ services:
     build: .
     image: smartpublictransport_webserver:latest
     restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__FERNET_KEY=temporary_fernet_key
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
       - AIRFLOW__WEBSERVER__WORKERS=2
     volumes:
       - airflow_home:/opt/airflow
@@ -38,20 +62,32 @@ services:
     build: .
     image: smartpublictransport_scheduler:latest
     depends_on:
-      - webserver
+      postgres:
+        condition: service_healthy
     volumes:
       - airflow_home:/opt/airflow
       - ./airflow/dags:/opt/airflow/dags:rw
       - ./:/opt/airflow/project:ro
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__FERNET_KEY=temporary_fernet_key
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
     command: scheduler
 
   triggerer:
     build: .
     image: smartpublictransport_triggerer:latest
     depends_on:
-      - webserver
+      postgres:
+        condition: service_healthy
     volumes:
       - airflow_home:/opt/airflow
       - ./airflow/dags:/opt/airflow/dags:rw
       - ./:/opt/airflow/project:ro
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__FERNET_KEY=temporary_fernet_key
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
     command: triggerer
