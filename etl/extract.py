@@ -113,7 +113,7 @@ def read_addis_final_csv(spark: SparkSession, csv_paths: List[Path]) -> DataFram
         .csv(_paths_to_str(csv_paths))
     )
     return df
-
+# Reads passenger parquet files into a Spark DataFrame after validating file existence.
 
 def read_passengers_parquet(spark: SparkSession, parquet_paths: List[Path]) -> DataFrame:
     if not parquet_paths:
