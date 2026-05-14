@@ -69,7 +69,7 @@ def discover_sources(raw_dir: Path) -> ExtractedSources:
     parquet_candidates = sorted(raw_dir.rglob("*.parquet"))
     passengers = [p for p in parquet_candidates if p.name.lower() == "public_transport.parquet"]
     if not passengers:
-        # Exclude GTFS-RT files which have a completely different schema
+        # Skip GTFS-RT files because their structure is different
         passengers = [p for p in parquet_candidates if not _is_gtfs_parquet(p)]
 
     logger.info(
