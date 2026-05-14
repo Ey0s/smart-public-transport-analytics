@@ -435,7 +435,6 @@ def build_analytics_summary(trips: DataFrame) -> Tuple[DataFrame, DataFrame]:
         .dropDuplicates(["route_id"])
         .withColumn("route_name", F.concat(F.lit("Route "), F.col("route_id")))
     )
-
     summary = (
         trips.groupBy("operating_day", "hour", "source")
         .agg(
@@ -448,3 +447,4 @@ def build_analytics_summary(trips: DataFrame) -> Tuple[DataFrame, DataFrame]:
     )
 
     return routes, summary
+    
