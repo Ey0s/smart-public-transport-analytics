@@ -26,7 +26,6 @@ def _java_major_version(java_exe: str = "java") -> int | None:
     except FileNotFoundError:
         return None
 
-    # java -version writes to stderr commonly.
     text = (proc.stderr or "") + "\n" + (proc.stdout or "")
     m = _JAVA_MAJOR_RE.search(text)
     if not m:
@@ -61,8 +60,6 @@ def _candidate_java_homes() -> list[Path]:
             name = child.name.lower()
             if name.startswith("jdk"):
                 homes.append(child)
-
-    # Deduplicate while preserving order.
     seen: set[str] = set()
     unique: list[Path] = []
     for h in homes:
