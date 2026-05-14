@@ -7,7 +7,7 @@ import duckdb
 
 
 def _sql_path_literal(path: Path) -> str:
-    # DuckDB COPY requires a string literal filename, parameters aren't supported.
+    
     return str(path).replace("'", "''")
 
 
@@ -32,7 +32,6 @@ def export_powerbi(*, db_path: Path, out_dir: Path, trips_limit: int = 1_000_000
         con.execute(f"copy (select * from trips limit {int(trips_limit)}) to '{trips_csv}' (format csv, header true)")
     finally:
         con.close()
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export DuckDB tables for Power BI (CSV).")
